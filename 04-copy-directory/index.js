@@ -4,8 +4,15 @@ const path = require('path');
 const folderPath = path.join(__dirname, 'files');
 const { stdout } = process;
 
-fs.mkdir(path.join(__dirname, 'files-copy'), true)
-  .then(function () {
+
+
+
+
+
+
+
+fs.mkdir(path.join(__dirname, 'files-copy'), true )
+  .then(function (err) {
     console.log('Directory created successfully');
   })
 
@@ -27,8 +34,10 @@ fs.mkdir(path.join(__dirname, 'files-copy'), true)
   })
   .catch(function (err) {
     if (err.code === 'EEXIST') {
-      console.log('folder already exist');
     } else {
       console.log('somethin went wrong');
     }
   });
+
+
+
