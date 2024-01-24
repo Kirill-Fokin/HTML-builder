@@ -1,34 +1,20 @@
-const fs = require('fs/promises');
-const fss = require('fs');
+const fs = require("fs");
 const path = require('path');
-const folderPath = path.join(__dirname, 'styles');
-const { stdout } = process;
+const writeStream = fs.createWriteStream('05-merge-styles/project-dist/bundle.css');
+const slylesPath = '05-merge-styles/styles';
 
-
-
-
-    fs.readdir(folderPath, { withFileTypes: true }).then((files) => {
-      let data = '';
-      files.forEach((file) => {
-        let filePath = path.join(folderPath, file.name);
-        let ext = path.extname(filePath);
-        if (ext == '.css') {
-           console.log(file.name);
-
-           const stream = fss.createReadStream(path.join(__dirname, 'styles', file.name), 'utf-8');
-           stream.on('data', (chunk) => (data += chunk));
-           stream.on('error', (error) => console.log('Error', error.message));
-
-           const fs = require("fs");
- 
-           const data = "Hello Node.js\n";
-                
-           fs.writeFile("hello2.txt", data, function(error){
-               if(error){  // если ошибка
-                   return console.log(error);
-               }
-               console.log("Файл успешно записан");
+fs.readdir(slylesPath, { withFileTypes: true }, (err, files) => {
+  if (err) {
+    process.stdout.write("Something went wrong: " + err);
+  } else {
+    files.filter((file) => path.extname(file.name) === '.css')
+         .forEach( (file) => {
+           const filePath = path.join(slylesPath, file.name);
+           const readStream = fs.createReadStream(filePath);
+           readStream.on('data', text => {
+             writeStream.write(`${text}\n`);
            });
-       
-      });
-    });
+         });
+    process.stdout.write("bundle is created !");
+  }
+});
