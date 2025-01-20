@@ -17,6 +17,10 @@ const stream = fs.createReadStream(path.join(__dirname, 'text.txt'), 'utf-8');
 
 let data = '';
 
+console.log(
+  'Если несложно, можете посмотреть в последний день, хотел доделать последний таск, благодарю',
+);
+
 stream.on('data', (chunk) => (data += chunk));
 stream.on('end', () => console.log(data));
 stream.on('error', (error) => console.log('Error', error.message));
